@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="ng-csp ie ie6 lte9 lte8 lte7" data-placeholder-focus="false" lang="en"><![endif]-->
+<!--[if IE 7]><html class="ng-csp ie ie7 lte9 lte8 lte7" data-placeholder-focus="false" lang="en" ><![endif]-->
+<!--[if IE 8]><html class="ng-csp ie ie8 lte9 lte8" data-placeholder-focus="false" lang="en" ><![endif]-->
+<!--[if IE 9]><html class="ng-csp ie ie9 lte9" data-placeholder-focus="false" lang="en" ><![endif]-->
+<!--[if gt IE 9]><html class="ng-csp ie" data-placeholder-focus="false" lang="en" ><![endif]-->
+<!--[if !IE]><!--><html class="ng-csp" data-placeholder-focus="false" lang="en" ><!--<![endif]-->
+
+<head>
+    <title>gmail bookmarks</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="./img/favicon.png" />
+    <link rel="apple-touch-icon-precomposed" href="./img/favicon-touch.png" />
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="./lib/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="./lib/bootstrap-theme.min.css">
+
+    <style>
+        #bookmarklet_form {
+            margin: 2em 2em 2em 2em;
+        }
+        #bookmarklet_form .title-link {
+            font-size: 1.4em;
+        }
+        .bm_desc ul {
+            list-style: none;
+            padding: 0;
+        }
+    </style>
+<!-- Latest compiled and minified JavaScript -->
+<script src="./lib/jquery-1.11.2.min.js"></script>
+<script src="./lib/jquery.getUrlParam.js"></script>
+<script src="./lib/bootstrap.min.js"></script>
+<script>
+
+//incoming url
+//https://buzzbong.com:8443/owncloud/index.php/apps/bookmarks/bookmarklet?output=popup&url=https%3A%2F%2Fbuzzbong.com%3A8443%2Fowncloud%2Findex.php%2Fapps%2Fbookmarks%2F&title=Bookmarks%20-%20ownCloud
+//bookmarklet javascript
+//javascript:(function(){var a=window,b=document,c=encodeURIComponent,e=c(document.title),d=a.open('https://buzzbong.com/owncloud/index.php/apps/bookmarks/bookmarklet?output=popup&url='+c(b.location)+'&title='+e,'bkmk_popup','left='+((a.screenX||a.screenLeft)+10)+',top='+((a.screenY||a.screenTop)+10)+',height=400px,width=550px,resizable=1,alwaysRaised=1');a.setTimeout(function(){d.focus()},300);})();
+
+        $(document).ready(function() {
+            if(!window.console) window.console = {log:function(){},warn:function(){}};
+
+            //get url from parameter
+            var to = $(document).getUrlParam( "to" );
+            if( to && to.length > 0 ) {
+                to = decodeURIComponent( to );
+                $(".to-email").val( to );
+                $(".to-email-container").hide();
+            }
+
+            //get url from parameter
+            var url = $(document).getUrlParam( "url" );
+            if( url && url.length > 0 ) {
+                url = decodeURIComponent( url );
+                $(".url_input").val( url );
+            }
+
+            //get title from parameter
+            var title = $(document).getUrlParam( "title" );
+            title = title && decodeURIComponent( title );
+            if( title && title.length > 0 ) {
+                title = decodeURIComponent( title );
+                $(".title").val( title );
+            }
+
+            $(".btn-save").on( "click", function() {
+               var to = $(".to-email").val();
+               if( to && to.length > 0 ) {
+                   var mailtoUrl="mailto:?to=" + encodeURIComponent( to ).replace(/\+/g, "%2B");
+
+                   var title = $(".title").val();
+                   if( title && title.length > 0 ) {
+                       //mailtoUrl = mailtoUrl + "&subject=" + title;
+                       mailtoUrl = mailtoUrl + "&subject=" + encodeURIComponent( title ).replace(/\+/g, "%2B");
+                   }
+
+                   var body="";
+                   var url = $(".url_input").val();
+                   if( url && url.length > 0 ) {
+                        body = url;
+                   }
+
+                   var desc = $(".desc").val();
+                   if( desc && desc.length > 0 ) {
+                        body = body + "\n\n" + desc;
+                   }
+
+                   if( body && body.length > 0 ) {
+                        mailtoUrl = mailtoUrl + "&body=" + encodeURIComponent( body ).replace(/\+/g, "%2B");
+                   }
+
+                   var compose = mailtoUrl;
+                   window.location = compose;
+               }
+               else {
+                   alert( "No email address specified!" );
+               }
+            });
+
+            $(".desc").focus();
+        });
+    </script>
+</head>
+
+<body id="body-user">
+    <noscript><div id="nojavascript"><div>This application requires JavaScript for correct operation. Please <a href="http://enable-javascript.com/" target="_blank">enable JavaScript</a> and reload the page.</div></div></noscript>
+    <div id="notification-container">
+        <div id="notification"></div>
+    </div>
+    <div id="content-wrapper">
+        <div id="content" class="app-bookmarks">
+            <div id="bookmarklet_form">
+
+                    <a  class="title-link"
+                        href="javascript:(function(){var a=window,b=document,c=encodeURIComponent,e=c(document.title),d=a.open('https://buzzbong.com:8443/~zenon3/gmail_bookmarklet.html?output=popup&to=' + c('zenoniii+bookmarks@buzzbong.com') + '&url='+c(b.location)+'&title='+e,'bkmk_popup','left='+((a.screenX||a.screenLeft)+10)+',top='+((a.screenY||a.screenTop)+10)+',height=400px,width=550px,resizable=1,alwaysRaised=1');a.setTimeout(function(){d.focus()},300);})();"
+                    >Add a bookmark</a>
+
+                    <fieldset class="bm_desc">
+                        <ul>
+                            <li class="form-group to-email-container">
+                            <input id="to-email" type="text" name="to-email" class="to-email form-control" value="" placeholder="The email address" />
+                            </li>
+
+                            <li class="form-group">
+                            <input id="title" type="text" name="title" class="title form-control" value="" placeholder="The title of the page" />
+                            </li>
+
+                            <li class="form-group">
+                            <input id="url" type="text" name="url" class="url_input form-control" value="" placeholder="The address of the page" />
+                            </li>
+
+                            <li class="form-group">
+                            <textarea id="description" name="description" class="desc form-control" placeholder="Description of the page"></textarea>
+                            </li>
+
+                            <li class="form-group">
+                            <button class="btn-save btn btn-default">Save</button>
+                            </li>
+
+                        </ul>
+
+                    </fieldset>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
