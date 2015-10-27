@@ -46,64 +46,34 @@
         $(document).ready(function() {
             if(!window.console) window.console = {log:function(){},warn:function(){}};
 
+            var mailtoUrl="mailto:?to=";
+            var compose = mailtoUrl;
+
             //get url from parameter
             var to = $(document).getUrlParam( "to" );
             if( to && to.length > 0 ) {
-                to = decodeURIComponent( to );
-                $(".to-email").val( to );
-                $(".to-email-container").hide();
-            }
-
-            //get url from parameter
-            var url = $(document).getUrlParam( "url" );
-            if( url && url.length > 0 ) {
-                url = decodeURIComponent( url );
-                $(".url_input").val( url );
+                mailtoUrl = mailtoUrl + to;
             }
 
             //get title from parameter
             var title = $(document).getUrlParam( "title" );
             title = title && decodeURIComponent( title );
             if( title && title.length > 0 ) {
-                title = decodeURIComponent( title );
-                $(".title").val( title );
+               mailtoUrl = mailtoUrl + "&subject=" + title;
             }
 
-            $(".btn-save").on( "click", function() {
-               var to = $(".to-email").val();
-               if( to && to.length > 0 ) {
-                   var mailtoUrl="mailto:?to=" + encodeURIComponent( to ).replace(/\+/g, "%2B");
+            //get url from parameter
+            var url = $(document).getUrlParam( "url" );
+            if( url && url.length > 0 ) {
+                body = decodeURIComponent( url );
+                mailtoUrl = mailtoUrl + "&body=" + body;
+            }
 
-                   var title = $(".title").val();
-                   if( title && title.length > 0 ) {
-                       //mailtoUrl = mailtoUrl + "&subject=" + title;
-                       mailtoUrl = mailtoUrl + "&subject=" + encodeURIComponent( title ).replace(/\+/g, "%2B");
-                   }
-
-                   var body="";
-                   var url = $(".url_input").val();
-                   if( url && url.length > 0 ) {
-                        body = url;
-                   }
-
-                   var desc = $(".desc").val();
-                   if( desc && desc.length > 0 ) {
-                        body = body + "\n\n" + desc;
-                   }
-
-                   if( body && body.length > 0 ) {
-                        mailtoUrl = mailtoUrl + "&body=" + encodeURIComponent( body ).replace(/\+/g, "%2B");
-                   }
-
-                   var compose = mailtoUrl;
-                   window.location = compose;
-               }
-               else {
-                   alert( "No email address specified!" );
-               }
-            });
-
-            $(".desc").focus();
+            //only send if title or body was appended
+            if( compose != mailtoUrl ) {
+               console.log( mailtoUrl );
+               window.location = mailtoUrl;
+            }
         });
     </script>
 </head>
@@ -118,34 +88,8 @@
             <div id="bookmarklet_form">
 
                     <a  class="title-link"
-                        href="javascript:(function(){var a=window,b=document,c=encodeURIComponent,e=c(document.title),d=a.open('https://buzzbong.com:8443/~zenon3/gmail-bookmarklet/index.html?output=popup&to=' + c('zenoniii+bookmarks@buzzbong.com') + '&url='+c(b.location)+'&title='+e,'bkmk_popup','left='+((a.screenX||a.screenLeft)+10)+',top='+((a.screenY||a.screenTop)+10)+',height=400px,width=550px,resizable=1,alwaysRaised=1');a.setTimeout(function(){d.focus()},300);})();"
-                    >Add a bookmark</a>
-
-                    <fieldset class="bm_desc">
-                        <ul>
-                            <li class="form-group to-email-container">
-                            <input id="to-email" type="text" name="to-email" class="to-email form-control" value="" placeholder="The email address" />
-                            </li>
-
-                            <li class="form-group">
-                            <input id="title" type="text" name="title" class="title form-control" value="" placeholder="The title of the page" />
-                            </li>
-
-                            <li class="form-group">
-                            <input id="url" type="text" name="url" class="url_input form-control" value="" placeholder="The address of the page" />
-                            </li>
-
-                            <li class="form-group">
-                            <textarea id="description" name="description" class="desc form-control" placeholder="Description of the page"></textarea>
-                            </li>
-
-                            <li class="form-group">
-                            <button class="btn-save btn btn-default">Save</button>
-                            </li>
-
-                        </ul>
-
-                    </fieldset>
+                        href="javascript:(function(){var a=window,b=document,c=encodeURIComponent,e=c(document.title),d=a.open('https://buzzbong.com:8443/~zenon3/gmail-bookmarklet/index.html?output=popup&url='+c(b.location)+'&title='+e,'bkmk_popup','left='+((a.screenX||a.screenLeft)+10)+',top='+((a.screenY||a.screenTop)+10)+',height=400px,width=550px,resizable=1,alwaysRaised=1');a.setTimeout(function(){d.focus()},300);})();"
+                        >Email</a>
             </div>
         </div>
     </div>
