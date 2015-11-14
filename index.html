@@ -38,11 +38,6 @@
 <script src="./lib/bootstrap.min.js"></script>
 <script>
 
-//incoming url
-//https://buzzbong.com:8443/owncloud/index.php/apps/bookmarks/bookmarklet?output=popup&url=https%3A%2F%2Fbuzzbong.com%3A8443%2Fowncloud%2Findex.php%2Fapps%2Fbookmarks%2F&title=Bookmarks%20-%20ownCloud
-//bookmarklet javascript
-//javascript:(function(){var a=window,b=document,c=encodeURIComponent,e=c(document.title),d=a.open('https://buzzbong.com/owncloud/index.php/apps/bookmarks/bookmarklet?output=popup&url='+c(b.location)+'&title='+e,'bkmk_popup','left='+((a.screenX||a.screenLeft)+10)+',top='+((a.screenY||a.screenTop)+10)+',height=400px,width=550px,resizable=1,alwaysRaised=1');a.setTimeout(function(){d.focus()},300);})();
-
         $(document).ready(function() {
             if(!window.console) window.console = {log:function(){},warn:function(){}};
 
@@ -87,9 +82,10 @@
         <div id="content" class="app-bookmarks">
             <div id="bookmarklet_form">
 
-                    <a  class="title-link"
-                        href="javascript:(function(){var a=window,b=document,c=encodeURIComponent,e=c(document.title),d=a.open('https://buzzbong.com:8443/~zenon3/gmail-bookmarklet/index.html?output=popup&url='+c(b.location)+'&title='+e,'bkmk_popup','left='+((a.screenX||a.screenLeft)+10)+',top='+((a.screenY||a.screenTop)+10)+',height=400px,width=550px,resizable=1,alwaysRaised=1');a.setTimeout(function(){d.focus()},300);})();"
-                        >Email</a>
+                    Drag the <a  class="title-link"
+                        href="javascript:(function(){var a=window,b=document,c=encodeURIComponent,e=c(document.title),d=a.open('http://zenoniii.github.io/share/index.html?output=popup&to=' + c('') + '&url='+c(b.locaton)+'&title='+e,'bkmk_popup','left='+((a.screenX||a.screenLeft)+10)+',top='+((a.screenY||a.screenTop)+10)+',height=400px,width=550px,resizable=1,alwaysRaised=1');a.setTimeout(function(){d.focus()},300);})();"
+                        >share</a> bookmarklet to your browser toolbar.
+                    Optionally, edit the bookmark and add a default email address to the url like this: "to=' + c('&lt;add email here&gt;')" 
             </div>
         </div>
     </div>
